@@ -203,7 +203,12 @@ if __name__ == '__main__':
     pool = multiprocessing.Pool()
     #Generate training data
     data = np.genfromtxt('ndat.csv', delimiter = ',')
-    train(data)
+    theta, mu, sigma = train(data)
+    
+    #save learned matrices as csv files
+    np.savetxt("mu.csv", mu, delimiter = ',')
+    np.savetxt("sigma.csv", sigma, delimiter = ',')
+    np.savetxt("theta.csv", theta, delimiter = ',')
 
 
 
