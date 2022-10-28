@@ -2,8 +2,7 @@
 
 import numpy as np
 import multiprocessing
-
-
+import tensorflow as tf
 
 
 
@@ -27,9 +26,9 @@ def calcPI(THETA, Z):
 #inputs: MU(s x k) mean of Z distribution, SIGMA (s x k) std dev of Z distribution, THETA (k x o) loading matrix
 #outputs: PI (s x o), representing predicted abundances
 
-    pi = np.exp(-1 * np.matmul(Z, THETA))
-    pi = pi/np.linalg.norm(pi, ord=1, axis=1, keepdims=True)
-
+    pi = np.exp(-1 * tf.linalg.matmul(Z, THETA))
+    pi = pi/np.linalg.norm(pi, ord=1, axis=2, keepdims=True)
+    #axis = 2 for parallel processing. Want to average over otu axis
     return pi
 
 def calcX(n, N):
@@ -66,7 +65,7 @@ def dmu(X, THETA, MU, SIGMA, EPS):
 
     z = MU + SIGMA * EPS
     print(z)
-    dm = -1 * np.matmul(X, np.transpose(THETA)) + np.matmul(calcPI(THETA, z), np.transpose(THETA))
+    dm = -1 * tf.linalg.matmul(X, np.transpose(THETA)) + tf.linalg.matmul(calcPI(THETA, z), np.transpose(THETA))
 
     return dm
 
@@ -89,7 +88,7 @@ def dsigma(X, THETA, MU, SIGMA, EPS):
     
         
     z = MU + EPS * SIGMA
-    ds = -1 * EPS * np.matmul(X, np.transpose(THETA)) + EPS * np.matmul(calcPI(THETA, z), np.transpose(THETA))#TERM1
+    ds = -1 * EPS * tf.linalg.matmul(X, np.transpose(THETA)) + EPS * tf.linalg.matmul(calcPI(THETA, z), np.transpose(THETA))#TERM1
     
     return ds
 
@@ -115,7 +114,7 @@ def dtheta(X, THETA, MU, SIGMA, EPS):
     #reshape Z so that parallel processing can work properly
     ztranspose = z.reshape(np.shape(z)[0], np.shape(z)[2], np.shape(z)[1])
     
-    dt = -1 * np.matmul(ztranspose, X) + np.matmul(ztranspose, calcPI(THETA, z))
+    dt = -1 * tf.linalg.matmul(ztranspose, X) + tf.linalg.matmul(ztranspose, calcPI(THETA, z))
     
     return dt
 
