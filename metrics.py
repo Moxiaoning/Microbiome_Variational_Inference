@@ -1,5 +1,5 @@
 import numpy as np
-from regex import P
+
 import scipy.spatial.distance as dist
 import matplotlib.pyplot as plt
 
