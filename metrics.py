@@ -3,11 +3,6 @@ from regex import P
 import scipy.spatial.distance as dist
 import matplotlib.pyplot as plt
 
-folder = "HipergatorDat/Fix MU 5K 100 Sample Data/"
-thetaFile = folder + "theta5.csv"
-muFile = folder + "mu5.csv"
-sigmaFile = folder + "sigma5.csv"
-
 
 ########CONSTANTS ###########
 # s - number of samples 
