@@ -1,0 +1,4 @@
+Hyperparameters: 
+
+k = 15, BETA = 1, N = 10000, eta = 10**-4, naverage = 100, maxiter = 100000
+
