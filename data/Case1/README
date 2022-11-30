@@ -1,0 +1,7 @@
+In this run:
+mu prior is set to 0
+sigma prior is set to the 0.05 percentile of sigma from nonvariational results
+theta is learned normally
+
+Hyperparameters: 
+k = 5, BETA = 1, N = 10000, eta = 10**-4, naverage = 100, maxiter = 100000
